@@ -2656,6 +2656,10 @@
                 tarProcess.arguments = [
                     "-xf", tarball.path, "-C", extractDir.path, "--strip-components=1",
                 ]
+                var env = ProcessInfo.processInfo.environment
+                let basePath = env["PATH"] ?? "/usr/bin:/bin:/usr/sbin:/sbin"
+                env["PATH"] = "/opt/homebrew/bin:/usr/local/bin:\(basePath)"
+                tarProcess.environment = env
                 let tarStderr = Pipe()
                 tarProcess.standardOutput = FileHandle.nullDevice
                 tarProcess.standardError = tarStderr
